@@ -1,10 +1,13 @@
 [package]
 name = "nocurses_rust"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Simple terminal library ported from nocurses.h"
 license = "MIT"
+repository = "https://github.com/aria-aghaei/nocurses_rust"
+categories = ["command-line-interface", "command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+crossterm = { version = "0.26", features = ["filedescriptor"] }

@@ -1,5 +1,8 @@
 use std::io;
 
+use crossterm::event::{self, Event, KeyCode, KeyEvent};
+use crossterm::terminal::{enable_raw_mode, disable_raw_mode};
+
 pub const BLACK : i32 = 0;
 pub const RED : i32 = 1;
 pub const GREEN : i32 = 2;
@@ -8,6 +11,18 @@ pub const BLUE : i32 = 4;
 pub const MAGENTA : i32 = 5;
 pub const CYAN : i32 = 6;
 pub const WHITE : i32 = 7;
+
+fn read_char() -> io::Result<char> {
+    loop {
+        if let Event::Key(KeyEvent {
+            code: KeyCode::Char(c),
+            ..
+        }) = event::read()?
+        {
+            return Ok(c);
+        }
+    }
+}
 
 pub fn wait(){
     let _ = io::stdin().read_line(&mut String::new());
@@ -36,3 +51,15 @@ pub fn setfontcolor(color: i32){
 pub fn setbgrcolor(color: i32){
     print!("{}", format!("\x1b[4{}m", color));
 }
+
+pub fn settitle(title: &str){
+    print!("{}", format!("\x1b]0;{}\\x7", title));
+}
+
+pub fn getch() -> io::Result<char>{
+    enable_raw_mode().expect("could not enable raw mode");
+	let c = read_char();
+	disable_raw_mode().expect("could not disable raw mode");
+	c
+}
+
