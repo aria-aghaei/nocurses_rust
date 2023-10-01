@@ -56,10 +56,10 @@ pub fn settitle(title: &str){
     print!("{}", format!("\x1b]0;{}\\x7", title));
 }
 
-pub fn getch() -> io::Result<char>{
-    enable_raw_mode().expect("could not enable raw mode");
+pub fn getch() -> Result<char, io::Error>{
+    enable_raw_mode()?;
 	let c = read_char();
-	disable_raw_mode().expect("could not disable raw mode");
+	disable_raw_mode()?;
 	c
 }
 
